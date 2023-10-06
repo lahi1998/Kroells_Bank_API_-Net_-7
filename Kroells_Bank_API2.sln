@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kroells_Bank_API2", "Kroells_Bank_API2\Kroells_Bank_API2.csproj", "{C39132C0-D3C9-4220-B498-1C155EF65EF0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C39132C0-D3C9-4220-B498-1C155EF65EF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39132C0-D3C9-4220-B498-1C155EF65EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39132C0-D3C9-4220-B498-1C155EF65EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39132C0-D3C9-4220-B498-1C155EF65EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB0B3AE0-D547-42AE-A26E-B45BA2ABF3FC}
+	EndGlobalSection
+EndGlobal
