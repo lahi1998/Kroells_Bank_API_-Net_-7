@@ -37,7 +37,7 @@ namespace Kroells_Bank_API2.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginReturn>> Login([FromQuery] UserDTO request)
+        public async Task<ActionResult<LoginReturn>> Login( UserDTO request)
         {
             try
             {

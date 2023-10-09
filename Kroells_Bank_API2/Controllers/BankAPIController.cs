@@ -14,13 +14,13 @@ namespace Kroells_Bank_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Bank_API_Controller : Controller
+    public class BankAPIController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly KroellsBankContext _context;
         private readonly IConfiguration _configuration;
 
-        public Bank_API_Controller(ILogger<HomeController> logger, KroellsBankContext context, IConfiguration configuration)
+        public BankAPIController(ILogger<HomeController> logger, KroellsBankContext context, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
@@ -28,7 +28,7 @@ namespace Kroells_Bank_API.Controllers
         }
 
         [HttpPost("FetchProfile")]
-        public async Task<ActionResult<ClientInformation>> FetchProfile([FromQuery] ClientInformationDTO request)
+        public async Task<ActionResult<ClientInformation>> FetchProfile(ClientInformationDTO request)
         {
 
             _logger.LogInformation("API FetchProfile request received.");
@@ -44,7 +44,7 @@ namespace Kroells_Bank_API.Controllers
         }
 
         [HttpPost("MakeTransfer")]
-        public ActionResult<string> MakeTransfer([FromQuery] TransferDTO request)
+        public ActionResult<string> MakeTransfer(TransferDTO request)
         {
             _logger.LogInformation("API MakeTransfer request received.");
 
@@ -71,14 +71,14 @@ namespace Kroells_Bank_API.Controllers
         }
 
         [HttpPost("GetTransactions")]
-        public async Task<ActionResult<Transaction>> GetTransactions([FromQuery] int AccountID)
+        public async Task<ActionResult<Transaction>> GetTransactions(TransactionDTO request)
         {
             _logger.LogInformation("API GetTransactions request received.");
 
 
             var TransActionsList = await _context.Transactions.
-                FromSqlRaw("EXEC GetCard @AccountID",
-                new SqlParameter("@AccountID", AccountID))
+                FromSqlRaw("EXEC GetTransactions @AccountID",
+                new SqlParameter("@AccountID", request.account_Id))
                 .ToListAsync();
         
             return Ok(TransActionsList);
@@ -86,19 +86,17 @@ namespace Kroells_Bank_API.Controllers
         }
 
         [HttpPost("GetCard")]
-        public async Task<ActionResult<Transaction>> GetCard([FromQuery] int AccountID)
+        public async Task<ActionResult<Transaction>> GetCard(CardDTO request)
         {
             _logger.LogInformation("API GetTransactions request received.");
 
 
             var CardInfoList = await _context.CardInfo.
                 FromSqlRaw("EXEC GetCard @AccountID",
-                new SqlParameter("@AccountID", AccountID))
+                new SqlParameter("@AccountID", request.account_Id))
                 .ToListAsync();
 
-            var CardInfo = CardInfoList.FirstOrDefault(); // Use FirstOrDefault() instead of [0].
-
-            return Ok(CardInfo);
+            return Ok(CardInfoList);
 
         }
 

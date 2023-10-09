@@ -1,9 +1,20 @@
 using Kroells_Bank_API2.Models;
 using Microsoft.EntityFrameworkCore;
 
+var MyAllowAnyOrigin = "_myAllowAnyOrigin";
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowAnyOrigin,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin() // Allow any origin
+                                .AllowAnyHeader() // Allow any header
+                                .AllowAnyMethod(); // Allow any HTTP method
+                      });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,7 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors(MyAllowAnyOrigin);
 app.UseAuthorization();
 
 app.MapControllers();
