@@ -61,10 +61,13 @@ namespace Kroells_Bank_API2.Controllers
                     {
                         throw new InvalidLoginException("Username or password is incorrect.");
                     }
+
                     int Account_Id = loginreturn.Account_Id;
+                    int Client_Id = loginreturn.Client_Id;
+
                     // call a method that creates a token.
                     string jwtToken = CreateToken(loginreturn);
-                    return Ok(new { jwtToken, Account_Id });
+                    return Ok(new { jwtToken, Account_Id, Client_Id });
                 }
                 else
                 {
