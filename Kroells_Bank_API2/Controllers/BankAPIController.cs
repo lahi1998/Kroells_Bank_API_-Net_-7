@@ -38,9 +38,7 @@ namespace Kroells_Bank_API.Controllers
                 new SqlParameter("@Client_Id", request.Client_Id))
                 .ToListAsync();
 
-            var ClientInformation = clientInformationList.FirstOrDefault(); // Use FirstOrDefault() instead of [0].
-
-            return Ok(ClientInformation);
+            return Ok(clientInformationList);
         }
 
         [HttpPost("MakeTransfer")]
