@@ -13,7 +13,7 @@ public partial class Cpr
 
     public int EmployeeId { get; set; }
 
-    public int CprNr { get; set; }
+    public string CprNr { get; set; } = null!;
 
     public virtual Address Address { get; set; } = null!;
 

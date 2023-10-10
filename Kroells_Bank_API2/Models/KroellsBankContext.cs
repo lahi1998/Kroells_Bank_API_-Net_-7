@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Kroells_Bank_API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,7 +53,7 @@ public partial class KroellsBankContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__Accounts__B19E45E98BD2F888");
+            entity.HasKey(e => e.AccountId).HasName("PK__Accounts__B19E45E95FAB15EA");
 
             entity.Property(e => e.AccountId).HasColumnName("Account_Id");
             entity.Property(e => e.CardId).HasColumnName("Card_Id");
@@ -60,12 +61,12 @@ public partial class KroellsBankContext : DbContext
             entity.HasOne(d => d.Card).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.CardId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Accounts__Card_I__46B27FE2");
+                .HasConstraintName("FK__Accounts__Card_I__477199F1");
         });
 
         modelBuilder.Entity<Address>(entity =>
         {
-            entity.HasKey(e => e.AddressId).HasName("PK__Addresse__03BDEBBAE64B6B17");
+            entity.HasKey(e => e.AddressId).HasName("PK__Addresse__03BDEBBA8D905711");
 
             entity.Property(e => e.AddressId).HasColumnName("Address_Id");
             entity.Property(e => e.City)
@@ -80,10 +81,13 @@ public partial class KroellsBankContext : DbContext
 
         modelBuilder.Entity<Card>(entity =>
         {
-            entity.HasKey(e => e.CardId).HasName("PK__Cards__45AA4B63304EF407");
+            entity.HasKey(e => e.CardId).HasName("PK__Cards__45AA4B6339D071E2");
 
             entity.Property(e => e.CardId).HasColumnName("Card_Id");
-            entity.Property(e => e.CardNr).HasColumnName("Card_Nr");
+            entity.Property(e => e.CardNr)
+                .HasMaxLength(16)
+                .IsUnicode(false)
+                .HasColumnName("Card_Nr");
             entity.Property(e => e.ClientName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -97,7 +101,7 @@ public partial class KroellsBankContext : DbContext
 
         modelBuilder.Entity<Client>(entity =>
         {
-            entity.HasKey(e => e.ClientId).HasName("PK__Clients__75A5D8F8A1D94068");
+            entity.HasKey(e => e.ClientId).HasName("PK__Clients__75A5D8F8964D512E");
 
             entity.Property(e => e.ClientId).HasColumnName("Client_Id");
             entity.Property(e => e.ClientName)
@@ -114,7 +118,7 @@ public partial class KroellsBankContext : DbContext
 
         modelBuilder.Entity<ClientAccount>(entity =>
         {
-            entity.HasKey(e => e.ClientAccountId).HasName("PK__Client_A__7B12944D691388C4");
+            entity.HasKey(e => e.ClientAccountId).HasName("PK__Client_A__7B12944DA3C74C03");
 
             entity.ToTable("Client_Account");
 
@@ -125,66 +129,69 @@ public partial class KroellsBankContext : DbContext
             entity.HasOne(d => d.Account).WithMany(p => p.ClientAccounts)
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Client_Ac__Accou__4F47C5E3");
+                .HasConstraintName("FK__Client_Ac__Accou__5006DFF2");
 
             entity.HasOne(d => d.Client).WithMany(p => p.ClientAccounts)
                 .HasForeignKey(d => d.ClientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Client_Ac__Clien__4E53A1AA");
+                .HasConstraintName("FK__Client_Ac__Clien__4F12BBB9");
         });
 
         modelBuilder.Entity<ClientJob>(entity =>
         {
-            entity.HasKey(e => e.ClientJobId).HasName("PK__Client_J__4ED9F646A84F738C");
+            entity.HasKey(e => e.ClientJobId).HasName("PK__Client_J__4ED9F646347193A4");
 
             entity.ToTable("Client_Job");
 
             entity.Property(e => e.ClientJobId).HasColumnName("Client_Job_Id");
-            entity.Property(e => e.ClientId).HasColumnName("CLient_Id");
+            entity.Property(e => e.ClientId).HasColumnName("Client_Id");
             entity.Property(e => e.JobId).HasColumnName("Job_Id");
 
             entity.HasOne(d => d.Client).WithMany(p => p.ClientJobs)
                 .HasForeignKey(d => d.ClientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Client_Jo__CLien__5F7E2DAC");
+                .HasConstraintName("FK__Client_Jo__Clien__603D47BB");
 
             entity.HasOne(d => d.Job).WithMany(p => p.ClientJobs)
                 .HasForeignKey(d => d.JobId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Client_Jo__Job_I__607251E5");
+                .HasConstraintName("FK__Client_Jo__Job_I__61316BF4");
         });
 
         modelBuilder.Entity<Cpr>(entity =>
         {
-            entity.HasKey(e => e.CprId).HasName("PK__CPRs__D3C1F31E1514F348");
+            entity.HasKey(e => e.CprId).HasName("PK__CPRs__D3C1F31E95CF0F61");
 
             entity.ToTable("CPRs");
 
             entity.Property(e => e.CprId).HasColumnName("CPR_Id");
             entity.Property(e => e.AddressId).HasColumnName("Address_Id");
             entity.Property(e => e.ClientId).HasColumnName("Client_Id");
-            entity.Property(e => e.CprNr).HasColumnName("CPR_Nr");
+            entity.Property(e => e.CprNr)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("CPR_Nr");
             entity.Property(e => e.EmployeeId).HasColumnName("Employee_Id");
 
             entity.HasOne(d => d.Address).WithMany(p => p.Cprs)
                 .HasForeignKey(d => d.AddressId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__CPRs__Address_Id__56E8E7AB");
+                .HasConstraintName("FK__CPRs__Address_Id__57A801BA");
 
             entity.HasOne(d => d.Client).WithMany(p => p.Cprs)
                 .HasForeignKey(d => d.ClientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__CPRs__Client_Id__55F4C372");
+                .HasConstraintName("FK__CPRs__Client_Id__56B3DD81");
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Cprs)
                 .HasForeignKey(d => d.EmployeeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__CPRs__Employee_I__57DD0BE4");
+                .HasConstraintName("FK__CPRs__Employee_I__589C25F3");
         });
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__781134A1D0E129CF");
+            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__781134A1AA37A5C8");
 
             entity.Property(e => e.EmployeeId).HasColumnName("Employee_Id");
             entity.Property(e => e.PasswordHashed)
@@ -200,9 +207,7 @@ public partial class KroellsBankContext : DbContext
 
         modelBuilder.Entity<Job>(entity =>
         {
-            entity.HasKey(e => e.JobId).HasName("PK__Job__E76A76A6736CEE6B");
-
-            entity.ToTable("Job");
+            entity.HasKey(e => e.JobId).HasName("PK__Jobs__E76A76A62947EE24");
 
             entity.Property(e => e.JobId).HasColumnName("Job_Id");
             entity.Property(e => e.JobName)
@@ -213,21 +218,21 @@ public partial class KroellsBankContext : DbContext
 
         modelBuilder.Entity<Loan>(entity =>
         {
-            entity.HasKey(e => e.ClientAccountId).HasName("PK__Loans__7B12944D2DDBECEC");
+            entity.HasKey(e => e.LoanId).HasName("PK__Loans__937E27B3564A9D89");
 
-            entity.Property(e => e.ClientAccountId).HasColumnName("Client_Account_Id");
+            entity.Property(e => e.LoanId).HasColumnName("Loan_Id");
             entity.Property(e => e.Apr).HasColumnName("APR");
             entity.Property(e => e.ClientId).HasColumnName("Client_Id");
 
             entity.HasOne(d => d.Client).WithMany(p => p.Loans)
                 .HasForeignKey(d => d.ClientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Loans__Amount__5AB9788F");
+                .HasConstraintName("FK__Loans__Client_Id__5B78929E");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__9A8D5605BE5ECDBF");
+            entity.HasKey(e => e.TransactionId).HasName("PK__Transact__9A8D5605A1F217B4");
 
             entity.Property(e => e.TransactionId).HasColumnName("Transaction_Id");
             entity.Property(e => e.AccountId).HasColumnName("Account_Id");
@@ -238,10 +243,10 @@ public partial class KroellsBankContext : DbContext
             entity.HasOne(d => d.Account).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Transacti__Accou__498EEC8D");
+                .HasConstraintName("FK__Transacti__Accou__4A4E069C");
         });
-        OnModelCreatingPartial(modelBuilder);
 
+        OnModelCreatingPartial(modelBuilder);
         modelBuilder.Entity<ClientInformation>().HasNoKey();
         modelBuilder.Entity<CardInfo>().HasNoKey();
         modelBuilder.Entity<LoginReturn>().HasNoKey();

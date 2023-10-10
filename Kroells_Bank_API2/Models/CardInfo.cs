@@ -4,7 +4,7 @@
     {
         public string? Client_Name { get; set; }
 
-        public int Card_Nr { get; set; }
+        public string Card_Nr { get; set; }
 
         public Int16 Cvv { get; set; }
 

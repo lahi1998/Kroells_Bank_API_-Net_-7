@@ -5,7 +5,7 @@ namespace Kroells_Bank_API2.Models;
 
 public partial class Loan
 {
-    public int ClientAccountId { get; set; }
+    public int LoanId { get; set; }
 
     public int ClientId { get; set; }
 

@@ -7,7 +7,7 @@ public partial class Card
 {
     public int CardId { get; set; }
 
-    public int CardNr { get; set; }
+    public string CardNr { get; set; } = null!;
 
     public DateTime ExpireDate { get; set; }
 
