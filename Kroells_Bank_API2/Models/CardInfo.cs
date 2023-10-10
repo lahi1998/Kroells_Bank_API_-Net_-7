@@ -4,9 +4,9 @@
     {
         public string? Client_Name { get; set; }
 
-        public string Card_Nr { get; set; }
+        public string? Card_Nr { get; set; }
 
-        public Int16 Cvv { get; set; }
+        public short Cvv { get; set; }
 
         public DateTime Expire_Date { get; set; }
 

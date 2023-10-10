@@ -90,7 +90,7 @@ namespace Kroells_Bank_API.Controllers
         }
 
         [HttpPost("GetCard")]
-        public async Task<ActionResult<Transaction>> GetCard([FromQuery] CardDTO request)
+        public async Task<ActionResult<Transaction>> GetCard(CardDTO request)
         {
             _logger.LogInformation("API GetTransactions request received.");
 
