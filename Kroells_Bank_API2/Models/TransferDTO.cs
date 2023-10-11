@@ -3,7 +3,7 @@
     public class TransferDTO
     {
         public int SenderID { get; set; }
-        public int Amount { get; set; }
-        public int ReciverCardNumber { get; set; }
+        public decimal Amount { get; set; }
+        public string ReciverCardNumber { get; set; } = string.Empty;
     }
 }

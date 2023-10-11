@@ -1,4 +1,4 @@
-﻿namespace Kroells_Bank_API.Models
+﻿namespace Kroells_Bank_API2.Models
 {
     public class ClientInformation
     {

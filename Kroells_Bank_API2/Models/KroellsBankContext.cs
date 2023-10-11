@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using Kroells_Bank_API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kroells_Bank_API2.Models;
@@ -247,9 +246,9 @@ public partial class KroellsBankContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
-        modelBuilder.Entity<ClientInformation>().HasNoKey();
-        modelBuilder.Entity<CardInfo>().HasNoKey();
         modelBuilder.Entity<LoginReturn>().HasNoKey();
+        modelBuilder.Entity<CardInfo>().HasNoKey();
+        modelBuilder.Entity<ClientInformation>().HasNoKey();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

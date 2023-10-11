@@ -1,5 +1,4 @@
 ﻿using Azure.Core;
-using Kroells_Bank_API.Models;
 using Kroells_Bank_API2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -29,7 +28,7 @@ namespace Kroells_Bank_API.Controllers
         }
 
         [HttpPost("FetchProfile")]
-        public async Task<ActionResult<ClientInformation>> FetchProfile( ClientInformationDTO request)
+        public async Task<ActionResult<ClientInformation>> FetchProfile(ClientInformationDTO request)
         {
 
             _logger.LogInformation("API FetchProfile request received.");
@@ -41,15 +40,14 @@ namespace Kroells_Bank_API.Controllers
 
             return Ok(clientInformationList);
         }
-            
+
         [HttpPost("MakeTransfer")]
-        public ActionResult<string> MakeTransfer( TransferDTO request)
+        public ActionResult<string> MakeTransfer(TransferDTO request)
         {
             _logger.LogInformation("API MakeTransfer request received.");
             _logger.LogInformation("{0} {1} {2}", request.SenderID, request.Amount, request.ReciverCardNumber);
             try
             {
-
                 // Define the SQL command to execute the stored procedure
                 var sql = "EXEC Transfer @SenderID, @ReceiverCardNumber, @TransferAmount";
 
@@ -58,24 +56,20 @@ namespace Kroells_Bank_API.Controllers
                 var transferAmountParam = new SqlParameter("@TransferAmount", request.Amount);
                 var receiverCardNumberParam = new SqlParameter("@ReceiverCardNumber", request.ReciverCardNumber);
 
-                _context.Database.ExecuteSqlRaw(sql, senderIdParam, transferAmountParam, receiverCardNumberParam);
+                var response = _context.Database.ExecuteSqlRaw(sql, senderIdParam, transferAmountParam, receiverCardNumberParam);
 
-                var response = new
-                {
-                    message = "Transfer completed."
-                };
-
-                return Ok(response);
+                return Ok("Transfer completed." + response);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error making transfer: {ex.Message}");
+                _logger.LogError($"Error making transfer: {ex.Message}. StackTrace: {ex.StackTrace}. InnerException: {ex.InnerException?.Message}");
+
                 return BadRequest("Transfer failed.");
             }
         }
 
         [HttpPost("GetTransactions")]
-        public async Task<ActionResult<Transaction>> GetTransactions( TransactionDTO request)
+        public async Task<ActionResult<Transaction>> GetTransactions(TransactionDTO request)
         {
             _logger.LogInformation("API GetTransactions request received.");
 
@@ -84,7 +78,7 @@ namespace Kroells_Bank_API.Controllers
                 FromSqlRaw("EXEC GetTransactions @AccountID",
                 new SqlParameter("@AccountID", request.account_Id))
                 .ToListAsync();
-        
+
             return Ok(TransActionsList);
 
         }

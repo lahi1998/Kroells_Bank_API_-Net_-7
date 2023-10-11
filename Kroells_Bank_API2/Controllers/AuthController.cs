@@ -37,7 +37,7 @@ namespace Kroells_Bank_API2.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginReturn>> Login( UserDTO request)
+        public async Task<ActionResult<LoginReturn>> Login(UserDTO request)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Kroells_Bank_API2.Controllers
 
         private string CreateToken(LoginReturn loginreturn)
         {
-            
+
             List<Claim> Claims = new List<Claim> { new Claim(ClaimTypes.Name, loginreturn.Username) };
 
 
