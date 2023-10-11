@@ -57,8 +57,8 @@ namespace Kroells_Bank_API.Controllers
                 var receiverCardNumberParam = new SqlParameter("@ReceiverCardNumber", request.ReciverCardNumber);
 
                 var response = _context.Database.ExecuteSqlRaw(sql, senderIdParam, transferAmountParam, receiverCardNumberParam);
-
-                return Ok("Transfer completed." + response);
+                var responseMessage = "Transfer completed.";
+                return Ok(new { responseMessage, response});
             }
             catch (Exception ex)
             {
